@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo App</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f4f4;
+        }
+
+        .heading {
+            text-align: center;
+            margin: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-align: center;
+            margin-left: 550px;
+        }
+
+        .to-do-img {
+            height: 35px;
+
+        }
+
+
+        .tasks-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            min-height: 130px;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            max-height: 350px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .todo-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            border: 0.5px solid #999;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-text {
+            font-size: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-check,
+        .btn-edit,
+        .btn-delete {
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn-check {
+            background: #3FB136;
+        }
+
+        .btn-edit {
+            background-color: #26A1F4;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+        }
+
+
+        .btn-icon {
+            width: 30px;
+            height: 30px;
+        }
+
+        .task-input-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 25px auto 0 auto;
+            display: flex;
+            gap: 10px;
+        }
+
+        .task-input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #999;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .btn-add {
+            background: #0d6efd;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-add:hover {
+            background: #0b5ed7;
+        }
+
+        .btn-serch {
+            background: green;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+
+        .clear-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn-clear-all {
+            background: #fee2e2;
+            color: #ef4444;
+            border: 1px solid #fca5a5;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-clear-all:hover {
+            background: #ef4444;
+            color: white;
+            box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 class="heading"> <img src="to do.png" class="to-do-img" />To DO App</h1>
+
+    <div class="task-input-container">
+
+        <input type="text" id="task-input" placeholder="What's on your Mind?" class="task-input">
+
+        <button onclick="addTask()" class="btn-add">
+            Create
+        </button>
+
+        <button class="btn-serch">
+            Search
+        </button>
+
+    </div>
+
+    <div id="tasks-container" class="tasks-container"></div>
+
+
+
+    <div class="clear-container">
+        <button class="btn-clear-all">Clear All</button>
+    </div>
+
+
+    <script>
+
+        const tasks = [];
+
+        function loadFromLocalStorage() {
+
+            const allTasks =
+                JSON.parse(localStorage.getItem("allTasks"));
+
+            if (allTasks) {
+                tasks.push(...allTasks);
+            }
+
+            loadTasks();
+        }
+
+        loadFromLocalStorage();
+
+        function loadTasks() {
+
+            localStorage.setItem(
+                "allTasks",
+                JSON.stringify(tasks)
+            );
+
+            const tasksContainer =
+                document.getElementById("tasks-container");
+
+            tasksContainer.innerHTML = "";
+
+            for (const task of tasks) {
+
+                tasksContainer.innerHTML += `
+        <div class="todo-item">
+
+            <span class="task-text">
+                ${task}
+            </span>
+
+            <div class="btn-group">
+
+                <button class="btn-check">
+                    <img
+                    src="check-1.png"
+                    class="btn-icon">
+                </button>
+
+                <button class="btn-edit">
+                    <img
+                    src="edit.png"
+                    class="btn-icon">
+                </button>
+
+                <button
+                class="btn-delete"
+                onclick="deleteTask('${task}')">
+
+                    <img
+                    src="delete.png"
+                    class="btn-icon">
+
+                </button>
+
+            </div>
+
+        </div>
+        `;
+            }
+        }
+
+        function deleteTask(task) {
+
+            const taskIndex =
+                tasks.indexOf(task);
+
+            tasks.splice(taskIndex, 1);
+
+            loadTasks();
+        }
+
+        function addTask() {
+
+            const taskInput =
+                document.getElementById("task-input");
+
+            const task =
+                taskInput.value.trim();
+
+            if (!task) {
+                alert("Please enter a task");
+                return;
+            }
+
+            tasks.unshift(task);
+
+            loadTasks();
+
+            taskInput.value = "";
+        }
+
+    </script>
+
+</body>
+
+</html>
