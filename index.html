@@ -24,7 +24,7 @@
             color: #333;
             display: flex;
             align-items: center;
-            gap: 5px; 
+            gap: 5px;
             text-align: center;
             margin-left: 550px;
         }
@@ -166,6 +166,14 @@
             color: white;
             box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
         }
+
+        .btn-clear-all:disabled {
+            background: #ddd;
+            color: #888;
+            border: 1px solid #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
     </style>
 </head>
 
@@ -192,7 +200,7 @@
 
 
     <div class="clear-container">
-        <button class="btn-clear-all">Clear All</button>
+        <button id="clear-btn" class="btn-clear-all" onclick="clearAll()">Clear All</button>
     </div>
 
 
@@ -226,6 +234,20 @@
 
             tasksContainer.innerHTML = "";
 
+            const clearBtn = document.getElementById("clear-btn");
+
+            clearBtn.disabled = (tasks.length === 0);
+
+            if (tasks.length === 0) {
+                tasksContainer.innerHTML = `
+            <div style="text-align:center; padding:40px; color:#777;">
+                <h2>📋 No Tasks Found</h2>
+                <p>Add your first task by clicking the <b>Create</b> button.</p>
+            </div>
+        `;
+                return;
+            }
+
             for (const task of tasks) {
 
                 tasksContainer.innerHTML += `
@@ -250,8 +272,8 @@
                 </button>
 
                 <button
-                class="btn-delete"
-                onclick="deleteTask('${task}')">
+                    class="btn-delete"
+                    onclick="deleteTask('${task}')">
 
                     <img
                     src="delete.png"
@@ -294,6 +316,16 @@
             loadTasks();
 
             taskInput.value = "";
+        }
+
+        function clearAll() {
+            const value = confirm("Are you sure you want to clear all tasks?");
+
+            if (value) {
+                tasks.length = 0;
+                localStorage.removeItem("allTasks");
+                loadTasks();
+            }
         }
 
     </script>
