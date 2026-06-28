@@ -176,57 +176,57 @@
         }
 
         /* Mobile Responsive */
-@media screen and (max-width: 480px) {
+        @media screen and (max-width: 480px) {
 
-    .heading {
-        justify-content: center;
-        margin: 15px 0;
-        font-size: 24px;
-    }
+            .heading {
+                justify-content: center;
+                margin: 15px 0;
+                font-size: 24px;
+            }
 
-    .to-do-img {
-        height: 28px;
-    }
+            .to-do-img {
+                height: 28px;
+            }
 
-    .task-input-container {
-        width: 95%;
-        flex-direction: column;
-        gap: 10px;
-    }
+            .task-input-container {
+                width: 95%;
+                flex-direction: column;
+                gap: 10px;
+            }
 
-    .task-input,
-    .btn-add,
-    .btn-serch {
-        width: 100%;
-    }
+            .task-input,
+            .btn-add,
+            .btn-serch {
+                width: 100%;
+            }
 
-    .tasks-container {
-        width: 95%;
-        padding: 15px;
-        max-height: 60vh;
-    }
+            .tasks-container {
+                width: 95%;
+                padding: 15px;
+                max-height: 60vh;
+            }
 
-    .todo-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
+            .todo-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
 
-    .task-text {
-        width: 100%;
-        font-size: 17px;
-        word-break: break-word;
-    }
+            .task-text {
+                width: 100%;
+                font-size: 17px;
+                word-break: break-word;
+            }
 
-    .btn-group {
-        width: 100%;
-        justify-content: flex-end;
-    }
+            .btn-group {
+                width: 100%;
+                justify-content: flex-end;
+            }
 
-    .btn-clear-all {
-        width: 95%;
-    }
-}
+            .btn-clear-all {
+                width: 95%;
+            }
+        }
     </style>
 </head>
 
@@ -302,7 +302,7 @@
             }
 
             for (const task of tasks) {
-
+                
                 tasksContainer.innerHTML += `
         <div class="todo-item">
 
@@ -380,6 +380,9 @@
                 loadTasks();
             }
         }
+
+
+     
 
     </script>
 
